@@ -5,7 +5,7 @@
 @section('page-title', 'Create Category')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.category.index') }}">Manage Categories</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.categories.index') }}">Manage Categories</a></li>
     <li class="breadcrumb-item active" aria-current="page">Create Category</li>
 @endsection
 
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-body">
-                    <form action="{{ isset($category) ? route('admin.category.update', $category->id) : route('admin.category.store') }}"
+                    <form action="{{ isset($category) ? route('admin.categories.update', $category->id) : route('admin.categories.store') }}"
                         method="POST" id="categoryForm"  enctype="multipart/form-data">
                         @if (isset($category))
                             @method('PUT')
@@ -73,8 +73,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <a href="{{ route('admin.category.index') }}" class="btn btn-secondary">Back</a>
+                            <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
+                            <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">Back</a>
                         </div>
                     </form>
                 </div>
@@ -130,6 +130,11 @@
                     image: {
                        required: "Image is required",
                     }
+                },
+                submitHandler: function(form) {
+                    const $btn = $('#saveBtn');
+                    $btn.prop('disabled', true).text('Saving...');
+                    form.submit();
                 },
                 errorElement: 'div',
                 errorClass: 'text-danger custom-error',

@@ -1,6 +1,6 @@
 <?php
 
-namespace admin\category\Requests;
+namespace admin\categories\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

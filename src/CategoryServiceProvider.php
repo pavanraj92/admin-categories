@@ -1,6 +1,6 @@
 <?php
 
-namespace admin\category;
+namespace admin\categories;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +24,7 @@ class CategoryServiceProvider extends ServiceProvider
             __DIR__ . '/../config/category.php' => config_path('constants/admin/category.php'),
             __DIR__ . '/../src/Controllers' => app_path('Http/Controllers/Admin/CategoryManager'),
             __DIR__ . '/../src/Models' => app_path('Models/Admin/Category'),
-            __DIR__ . '/routes/web.php' => base_path('routes/admin/admin_category.php'),
+            __DIR__ . '/routes/web.php' => base_path('routes/admin/category.php'),
         ], 'category');
 
 
@@ -36,7 +36,12 @@ class CategoryServiceProvider extends ServiceProvider
             return; // Avoid errors before migration
         }
 
-        $slug = DB::table('admins')->latest()->value('website_slug') ?? 'admin';
+        $admin = DB::table('admins')
+            ->orderBy('created_at', 'asc')
+            ->first();
+            
+        $slug = $admin->website_slug ?? 'admin';
+
 
         Route::middleware('web')
             ->prefix("{$slug}/admin") // dynamic prefix

@@ -1,12 +1,12 @@
 <?php
 
-namespace admin\category\Controllers;
+namespace admin\categories\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use admin\category\Requests\CategoryCreateRequest;
-use admin\category\Requests\CategoryUpdateRequest;
-use admin\category\Models\Category;
+use admin\categories\Requests\CategoryCreateRequest;
+use admin\categories\Requests\CategoryUpdateRequest;
+use admin\categories\Models\Category;
 use admin\admin_auth\Services\ImageService;
 
 class CategoryManagerController extends Controller
@@ -57,7 +57,7 @@ class CategoryManagerController extends Controller
 
 
             Category::create($requestData);
-            return redirect()->route('admin.category.index')->with('success', 'Category created successfully.');
+            return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to load categories: ' . $e->getMessage());
         }
@@ -95,7 +95,7 @@ class CategoryManagerController extends Controller
 
 
             $category->update($requestData);
-            return redirect()->route('admin.category.index')->with('success', 'Category updated successfully.');
+            return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to load category for editing: ' . $e->getMessage());
         }
@@ -132,7 +132,7 @@ class CategoryManagerController extends Controller
                 . ' data-toggle="tooltip"'
                 . ' data-placement="top"'
                 . ' title="' . $tooltip . '"'
-                . ' data-url="' . route('admin.category.updateStatus') . '"'
+                . ' data-url="' . route('admin.categories.updateStatus') . '"'
                 . ' data-method="POST"'
                 . ' data-status="' . $dataStatus . '"'
                 . ' data-id="' . $category->id . '"'

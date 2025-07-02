@@ -1,18 +1,18 @@
 {
-    "name": "admin/category",
+    "name": "admin/categories",
     "description": "Create, edit, and organize categories to structure content or products for easier navigation and management.",
     "type": "library",
     "version": "1.0.0",  
     "license": "MIT",
     "autoload": {
       "psr-4": {
-        "admin\\category\\": "src/"
+        "admin\\categories\\": "src/"
       }
     },
     "extra": { 
       "laravel": {
         "providers": [
-          "admin\\category\\CategoryServiceProvider"
+          "admin\\categories\\CategoryServiceProvider"
         ]
       }
     },

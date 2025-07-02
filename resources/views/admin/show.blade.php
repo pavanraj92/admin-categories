@@ -5,20 +5,18 @@
 @section('page-title', 'Category Details')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.category.index') }}">Manage Categories</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.categories.index') }}">Manage Categories</a></li>
     <li class="breadcrumb-item active" aria-current="page">Category Details</li>
 @endsection
 
 @section('content')
-    <!-- Container fluid  -->
     <div class="container-fluid">
-        <!-- Start Email Content -->
         <div class="row">
             <div class="col-12">
                 <div class="card">                    
                     <div class="table-responsive">
-                         <div class="card-body">      
-                            <table class="table table-bordered table-responsive-lg">                            
+                        <div class="card-body">      
+                            <table class="table table-responsive-lg table-no-border">
                                 <tbody>
                                     <tr>
                                         <th scope="row">Title</th>
@@ -34,7 +32,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">Status</th>
-                                        <td scope="col"> {!! config('admin.constants.aryStatusLabel.' . $category->status, 'N/A') !!}</td>
+                                        <td scope="col">{!! config('admin.constants.aryStatusLabel.' . $category->status, 'N/A') !!}</td>
                                     </tr>    
                                     <tr>
                                         <th scope="row">Image</th>
@@ -52,14 +50,12 @@
                                     </tr>                                
                                 </tbody>
                             </table>   
-                                             
-                            <a href="{{ route('admin.category.index') }}" class="btn btn-secondary">Back</a> 
+                                 
+                            <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">Back</a> 
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End category Content -->
     </div>
-    <!-- End Container fluid  -->
 @endsection

@@ -1,6 +1,6 @@
 <?php
 
-namespace admin\category\Models;
+namespace admin\categories\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,7 +53,7 @@ class Category extends Model
         });
 
         static::updating(function ($category) {
-            if (empty($category->slug)) {
+            if ($category->isDirty('title')) {
                 $category->slug = Str::slug($category->title);
             }
         });
