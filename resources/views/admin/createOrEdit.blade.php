@@ -25,7 +25,7 @@
                             <div class="col-md-6">                                
                                 <div class="form-group">
                                     <label>Title<span class="text-danger">*</span></label>
-                                    <input type="text" name="title" class="form-control"
+                                    <input type="text" name="title" class="form-control alphabets-only"
                                         value="{{ $category?->title ?? old('title') }}" required>
                                     @error('title')
                                         <div class="text-danger validation-error">{{ $message }}</div>
@@ -35,7 +35,7 @@
                             <div class="col-md-6">                                
                                 <div class="form-group">
                                     <label>Sort Order<span class="text-danger">*</span></label>
-                                    <input type="text" name="sort_order" class="form-control"
+                                    <input type="text" name="sort_order" class="form-control numbers-only"
                                         value="{{ $category?->sort_order ?? old('sort_order') }}" required>
                                     @error('sort_order')
                                         <div class="text-danger validation-error">{{ $message }}</div>
@@ -103,13 +103,22 @@
             // Initialize Select2 for any select elements with the class 'select2'
             $('.select2').select2();
 
+            $.validator.addMethod(
+                "alphabetsOnly",
+                function (value, element) {
+                    return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
+                },
+                "Please enter letters only"
+            );
+
             //jquery validation for the form
             $('#categoryForm').validate({
                 ignore: [],
                 rules: {
                     title: {
                         required: true,
-                        minlength: 3
+                        minlength: 3,
+                        alphabetsOnly: true
                     },
                     sort_order: {
                         required: true,
