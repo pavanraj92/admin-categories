@@ -24,11 +24,11 @@ class CategoryManagerController extends Controller
     public function index(Request $request)
     {
         try {
-            $categories = Category::
-                filter($request->query('keyword'))
+            $categories = Category::with('parent')
+                ->filter($request->query('keyword'))
                 ->filterByStatus($request->query('status'))
                 ->latest()
-                ->paginate(5)
+                ->paginate(Category::getPerPageLimit())
                 ->withQueryString();
 
             return view('category::admin.index', compact('categories'));
@@ -40,7 +40,8 @@ class CategoryManagerController extends Controller
     public function create()
     {
         try {
-            return view('category::admin.createOrEdit');
+            $mainCategories = Category::whereNull('parent_category_id')->orWhere('parent_category_id', 0)->get();
+            return view('category::admin.createOrEdit', compact('mainCategories'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to load categories: ' . $e->getMessage());
         }
@@ -51,10 +52,9 @@ class CategoryManagerController extends Controller
         try {
             $requestData = $request->validated();
 
-           if ($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
                 $requestData['image'] = $this->imageService->upload($request->file('image'), 'category');
             }
-
 
             Category::create($requestData);
             return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
@@ -69,6 +69,7 @@ class CategoryManagerController extends Controller
     public function show(Category $category)
     {
         try {
+            $category->load(['parent', 'children']);
             return view('category::admin.show', compact('category'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to load categories: ' . $e->getMessage());
@@ -78,7 +79,8 @@ class CategoryManagerController extends Controller
     public function edit(Category $category)
     {
         try {
-            return view('category::admin.createOrEdit', compact('category'));
+            $mainCategories = Category::whereNull('parent_category_id')->orWhere('parent_category_id', 0)->where('id', '!=', $category->id)->get();
+            return view('category::admin.createOrEdit', compact('category', 'mainCategories'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to load category for editing: ' . $e->getMessage());
         }
@@ -89,10 +91,10 @@ class CategoryManagerController extends Controller
         try {
             $requestData = $request->validated();
 
+
             if ($request->hasFile('image')) {
                 $requestData['image'] = $this->imageService->update($request->file('image'), 'category');
             }
-
 
             $category->update($requestData);
             return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully.');
