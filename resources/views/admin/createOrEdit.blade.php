@@ -32,6 +32,27 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Parent Category</label>
+                                    <select name="parent_category_id" class="form-control select2">
+                                        <option value="0">None (Main Category)</option>
+                                        @if(isset($mainCategories))
+                                            @foreach($mainCategories as $mainCategory)
+                                                <option value="{{ $mainCategory->id }}" 
+                                                    @if(($category->parent_category_id ?? old('parent_category_id')) == $mainCategory->id) selected @endif>
+                                                    {{ $mainCategory->title }}
+                                                </option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    @error('parent_category_id')
+                                        <div class="text-danger validation-error">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">                                
                                 <div class="form-group">
                                     <label>Sort Order<span class="text-danger">*</span></label>
@@ -42,20 +63,20 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Status<span class="text-danger">*</span></label>
                                     <select name="status" class="form-control select2" required>
-                                        <option value="0" {{ (($category?->status ?? old('status')) == '0') ? 'selected' : '' }}>InActive</option>
                                         <option value="1" {{ (($category?->status ?? old('status')) == '1') ? 'selected' : '' }}>Active</option>
+                                        <option value="0" {{ (($category?->status ?? old('status')) == '0') ? 'selected' : '' }}>InActive</option>
                                     </select>
                                     @error('status')
                                         <div class="text-danger validation-error">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">                                
                                 <div class="form-group">
                                     <label>Image<span class="text-danger">*</span></label>
