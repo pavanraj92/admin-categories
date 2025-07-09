@@ -47,16 +47,38 @@ Add the following to your `composer.json` to use the package from a local path:
 ## Installation
 
 ```bash
-composer require admin/category
+composer require admin/category:@dev
 ```
 
-## Publish Files
+## Usage
 
-After installing, publish the module's migrations, config, views, or other assets:
+1. Publish the configuration and migration files:
+    ```bash    
+    php artisan categories:publish --force
 
-```bash
-php artisan vendor:publish --tag=category
+    composer dump-autoload
+
+    php artisan migrate
+    ```
+2. Access the Categories manager from your admin dashboard.
+
+## Example
+
+```php
+use Admin\Category\Models\Category;
+
+// Creating a new category
+$category = new Category();
+$category->name = 'Electronics';
+$category->description = 'All electronic items';
+$category->save();
+```
+
+## Customization
+
+You can customize views, routes, and permissions by editing the package's configuration file.
+
 
 ## License
 
-MIT
+This package is open-sourced software licensed under the Dotsquares.write code in the readme.md file regarding to the admin/categories manager
