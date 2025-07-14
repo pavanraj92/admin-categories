@@ -16,6 +16,11 @@ class CategoryManagerController extends Controller
     public function __construct(ImageService $imageService)
     {
         $this->imageService = $imageService;
+        $this->middleware('admincan_permission:categories_manager_list')->only(['index']);
+        $this->middleware('admincan_permission:categories_manager_create')->only(['create', 'store']);
+        $this->middleware('admincan_permission:categories_manager_edit')->only(['edit', 'update']);
+        $this->middleware('admincan_permission:categories_manager_view')->only(['show']);
+        $this->middleware('admincan_permission:categories_manager_delete')->only(['destroy']);
     }
 
     /**
@@ -24,8 +29,7 @@ class CategoryManagerController extends Controller
     public function index(Request $request)
     {
         try {
-            $categories = Category::
-                filter($request->query('keyword'))
+            $categories = Category::filter($request->query('keyword'))
                 ->filterByStatus($request->query('status'))
                 ->latest()
                 ->paginate(5)
@@ -51,7 +55,7 @@ class CategoryManagerController extends Controller
         try {
             $requestData = $request->validated();
 
-           if ($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
                 $requestData['image'] = $this->imageService->upload($request->file('image'), 'category');
             }
 
@@ -138,7 +142,7 @@ class CategoryManagerController extends Controller
                 . ' data-id="' . $category->id . '"'
                 . ' class="btn ' . $btnClass . ' btn-sm update-status">' . $label . '</a>';
 
-            return response()->json(['success' => true, 'message' => 'Status updated to '.$label, 'strHtml' => $strHtml]);
+            return response()->json(['success' => true, 'message' => 'Status updated to ' . $label, 'strHtml' => $strHtml]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Failed to delete record.', 'error' => $e->getMessage()], 500);
         }
