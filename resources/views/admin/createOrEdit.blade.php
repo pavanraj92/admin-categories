@@ -2,11 +2,11 @@
 
 @section('title', 'Categories Management')
 
-@section('page-title', 'Create Category')
+@section('page-title', isset($category) ? 'Edit Category' : 'Create Category')
 
 @section('breadcrumb')
     <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.categories.index') }}">Manage Categories</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Create Category</li>
+    <li class="breadcrumb-item active" aria-current="page">{{isset($category) ? 'Edit Category' : 'Create Category'}}</li>
 @endsection
 
 @section('content')
