@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
 
 class Category extends Model
 {
@@ -48,17 +49,37 @@ class Category extends Model
 
         static::creating(function ($category) {
             if (empty($category->slug)) {
-                $category->slug = Str::slug($category->title);
+                $category->slug = Str::slug($category->title, '_');
             }
         });
 
         static::updating(function ($category) {
             if ($category->isDirty('title')) {
-                $category->slug = Str::slug($category->title);
+                $category->slug = Str::slug($category->title, '_');
             }
         });
     }
 
+    /**
+     * Get the parent category (if any).
+     */
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_category_id');
+    }
 
-   
+    /**
+     * Get the subcategories for this category.
+     */
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_category_id');
+    }
+    
+    public static function getPerPageLimit(): int
+    {
+        return Config::has('get.admin_page_limit')
+            ? Config::get('get.admin_page_limit')
+            : 10;
+    }
 }

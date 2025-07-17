@@ -60,6 +60,7 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Title</th>
+                                        <th scope="col">Parent Category</th>
                                         <th scope="col">Slug</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Created At</th>
@@ -75,6 +76,13 @@
                                             <tr>
                                                 <th scope="row">{{ $i }}</th>
                                                 <td>{{ $category->title }}</td>
+                                                <td>
+                                                    @if($category->parent)
+                                                        {{ $category->parent->title }}
+                                                    @else
+                                                        —
+                                                    @endif
+                                                </td>
                                                 <td>{{ $category->slug }}</td>
                                                 <td>
                                                     <!-- create update status functionality-->
@@ -94,7 +102,9 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    {{ $category->created_at->format('Y-m-d H:i:s') }}
+                                                    {{ $category->created_at
+                                                        ? $category->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
+                                                        : '—' }}
                                                 </td>
                                                 <td>
                                                     @admincan('categories_manager_edit')
