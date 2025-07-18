@@ -18,6 +18,8 @@ class CategoryServiceProvider extends ServiceProvider
             resource_path('views/admin/category'), // Published views second
             __DIR__ . '/../resources/views'      // Package views as fallback
         ], 'category');
+
+        $this->mergeConfigFrom(__DIR__.'/../config/category.php', 'category.constants');
         
         // Also register module views with a specific namespace for explicit usage
         if (is_dir(base_path('Modules/Categories/resources/views'))) {

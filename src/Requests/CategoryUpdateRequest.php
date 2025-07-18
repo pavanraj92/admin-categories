@@ -13,8 +13,8 @@ class CategoryUpdateRequest extends FormRequest
     {
         $rules = [          
             'parent_category_id' => 'nullable|numeric',
-            'title' => 'required|string|min:3|max:255|unique:categories,title,' . $this->route('category')->id,            
-            'sort_order' => 'nullable|numeric|max:255',
+            'title' => 'required|string|min:3|max:100|unique:categories,title,' . $this->route('category')->id,            
+            'sort_order' => 'required|numeric|min:0|max:2147483647',
             'status' => 'required|in:0,1',
         ];
 
