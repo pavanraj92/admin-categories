@@ -67,7 +67,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">Status</th>
-                                        <td scope="col"> {!! config('admin.constants.aryStatusLabel.' . $category->status, 'N/A') !!}</td>
+                                        <td scope="col"> {!! config('category.constants.aryStatusLabel.' . $category->status, 'N/A') !!}</td>
                                     </tr>    
                                     <tr>
                                         <th scope="row">Created At</th>
