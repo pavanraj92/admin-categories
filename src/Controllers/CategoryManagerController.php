@@ -32,6 +32,7 @@ class CategoryManagerController extends Controller
             $categories = Category::with('parent')
                 ->filter($request->query('keyword'))
                 ->filterByStatus($request->query('status'))
+                ->sortable()
                 ->latest()
                 ->paginate(Category::getPerPageLimit())
                 ->withQueryString();

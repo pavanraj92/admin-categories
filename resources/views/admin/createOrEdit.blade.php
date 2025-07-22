@@ -5,7 +5,7 @@
 @section('page-title', isset($category) ? 'Edit Category' : 'Create Category')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.categories.index') }}">Manage Categories</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.categories.index') }}">Category Manager</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{isset($category) ? 'Edit Category' : 'Create Category'}}</li>
 @endsection
 
@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
+                            <button type="submit" class="btn btn-primary" id="saveBtn">{{isset($category) ? 'Update' : 'Save'}}</button>
                             <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">Back</a>
                         </div>
                     </form>
@@ -163,7 +163,13 @@
                 },
                 submitHandler: function(form) {
                     const $btn = $('#saveBtn');
-                    $btn.prop('disabled', true).text('Saving...');
+
+                    if ($btn.text().trim().toLowerCase() === 'update') {
+                        $btn.prop('disabled', true).text('Updating...');
+                    } else {
+                        $btn.prop('disabled', true).text('Saving...');
+                    }
+
                     form.submit();
                 },
                 errorElement: 'div',

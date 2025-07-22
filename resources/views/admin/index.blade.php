@@ -2,10 +2,10 @@
 
 @section('title', 'Categories Management')
 
-@section('page-title', 'Manage Categories')
+@section('page-title', 'Category Manager')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page">Manage Categories</li>
+    <li class="breadcrumb-item active" aria-current="page">Category Manager</li>
 @endsection
 
 @section('content')
@@ -35,11 +35,14 @@
                                     </select>                                   
                                 </div>
                             </div>
-                        </div>
-                        <div class="text-right">
-                            <button type="submit" form="filterForm" class="btn btn-primary mb-3">Filter</button>
-                            <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary mb-3">Reset</a>
-                        </div>
+                            <div class="col-auto mt-1 text-right">
+                                <div class="form-group">
+                                    <label for="created_at">&nbsp;</label>
+                                    <button type="submit" form="filterForm" class="btn btn-primary mt-4">Filter</button>
+                                    <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary mt-4">Reset</a>
+                                </div>
+                            </div>
+                        </div>                       
                     </form>
                 </div>
             </div>
@@ -58,12 +61,12 @@
                             <table class="table">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Parent Category</th>
-                                        <th scope="col">Slug</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Created At</th>
+                                        <th scope="col">S. No.</th>
+                                        <th scope="col">@sortablelink('title', 'Title', [], ['style' => 'color: #4F5467; text-decoration: none;'])</th>
+                                        <th scope="col">@sortablelink('parent_category_id', 'Parent Category', [], ['style' => 'color: #4F5467; text-decoration: none;'])</th>
+                                        <th scope="col">@sortablelink('slug', 'Slug', [], ['style' => 'color: #4F5467; text-decoration: none;'])</th>
+                                        <th scope="col">@sortablelink('status', 'Status', [], ['style' => 'color: #4F5467; text-decoration: none;'])</th>
+                                        <th scope="col">@sortablelink('created_at', 'Created At', [], ['style' => 'color: #4F5467; text-decoration: none;'])</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -106,14 +109,7 @@
                                                         ? $category->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
                                                         : '—' }}
                                                 </td>
-                                                <td>
-                                                    @admincan('categories_manager_edit')
-                                                    <a href="{{ route('admin.categories.edit', $category) }}"
-                                                        data-toggle="tooltip"
-                                                        data-placement="top"
-                                                        title="Edit this record"
-                                                        class="btn btn-success btn-sm"><i class="mdi mdi-pencil"></i></a>
-                                                    @endadmincan
+                                                <td style="width: 10%;">
                                                     @admincan('categories_manager_view')
                                                     <a href="{{ route('admin.categories.show', $category) }}" 
                                                         data-toggle="tooltip"
@@ -121,6 +117,13 @@
                                                         title="View this record"
                                                         class="btn btn-warning btn-sm"><i class="mdi mdi-eye"></i></a>
                                                     @endadmincan
+                                                    @admincan('categories_manager_edit') 
+                                                    <a href="{{ route('admin.categories.edit', $category) }}"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Edit this record"
+                                                        class="btn btn-success btn-sm"><i class="mdi mdi-pencil"></i></a>
+                                                    @endadmincan                                                   
                                                     @admincan('categories_manager_delete')
                                                     <a href="javascript:void(0)" 
                                                         data-toggle="tooltip" 
@@ -139,7 +142,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="6" class="text-center">No category found.</td>
+                                            <td colspan="7" class="text-center">No records found.</td>
                                         </tr>
                                     @endif
                                 </tbody>
