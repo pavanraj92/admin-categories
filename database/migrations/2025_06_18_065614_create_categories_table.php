@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('title',100)->nullable();
             $table->string('slug',100)->nullable();
             $table->string('image')->nullable();
-            $table->integer('sort_order')->nullable()->default(0);
-            $table->boolean('status')->nullable()->default(true);
+            $table->integer('sort_order')->unique()->nullable();
+            $table->boolean('status')->nullable()->default(true)->comment('0 = Inactive, 1 = Active');
             $table->softDeletes();
             $table->timestamps();
         });

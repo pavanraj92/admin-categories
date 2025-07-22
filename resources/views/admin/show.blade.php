@@ -5,7 +5,7 @@
 @section('page-title', 'Category Details')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.categories.index') }}">Manage Categories</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.categories.index') }}">Category Manager</a></li>
     <li class="breadcrumb-item active" aria-current="page">Category Details</li>
 @endsection
 

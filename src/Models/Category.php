@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
+use Kyslik\ColumnSortable\Sortable;
 
 class Category extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Sortable;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +23,14 @@ class Category extends Model
         'image',
         'sort_order',
         'status'
+    ];
+
+    protected $sortable = [
+        'title',
+        'parent_category_id',
+        'slug',
+        'status',
+        'created_at',
     ];
 
     public function scopeFilter($query, $title)
