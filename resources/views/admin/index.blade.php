@@ -64,7 +64,6 @@
                                         <th scope="col">S. No.</th>
                                         <th scope="col">@sortablelink('title', 'Title', [], ['style' => 'color: #4F5467; text-decoration: none;'])</th>
                                         <th scope="col">@sortablelink('parent_category_id', 'Parent Category', [], ['style' => 'color: #4F5467; text-decoration: none;'])</th>
-                                        <th scope="col">@sortablelink('slug', 'Slug', [], ['style' => 'color: #4F5467; text-decoration: none;'])</th>
                                         <th scope="col">@sortablelink('status', 'Status', [], ['style' => 'color: #4F5467; text-decoration: none;'])</th>
                                         <th scope="col">@sortablelink('created_at', 'Created At', [], ['style' => 'color: #4F5467; text-decoration: none;'])</th>
                                         <th scope="col">Action</th>
@@ -86,7 +85,6 @@
                                                         —
                                                     @endif
                                                 </td>
-                                                <td>{{ $category->slug }}</td>
                                                 <td>
                                                     <!-- create update status functionality-->
                                                     @if ($category->status == '1')
@@ -142,7 +140,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="7" class="text-center">No records found.</td>
+                                            <td colspan="6" class="text-center">No records found.</td>
                                         </tr>
                                     @endif
                                 </tbody>
