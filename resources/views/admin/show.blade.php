@@ -18,7 +18,7 @@
                 <div class="card">                    
                     <div class="table-responsive">
                          <div class="card-body">      
-                            <table class="table table-responsive-lg table-no-border">
+                            <table class="table table-striped">
                                 <tbody>
                                     <tr>
                                         <th scope="row">Image</th>
@@ -33,10 +33,6 @@
                                     <tr>
                                         <th scope="row">Title</th>
                                         <td scope="col">{{ $category->title ?? 'N/A' }}</td>
-                                    </tr>         
-                                    <tr>
-                                        <th scope="row">Slug</th>
-                                        <td scope="col">{{ $category->slug ?? 'N/A' }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Parent Category</th>

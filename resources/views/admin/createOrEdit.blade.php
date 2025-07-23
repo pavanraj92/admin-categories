@@ -76,22 +76,26 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
-                            <div class="col-md-6">                                
+                            <div class="col-md-4">                                
                                 <div class="form-group">
                                     <label>Image<span class="text-danger">*</span></label>
                                     <input type="file" name="image" class="form-control" id="imageInput" {{ isset($category) ? '' : 'required' }}>
                                     @error('image')
                                         <div class="text-danger validation-error">{{ $message }}</div>
-                                    @enderror
-
-                                    <div id="imagePreview" style="margin-top:10px;">
+                                    @enderror                                  
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">                                    
+                                    <div id="imagePreview">
                                         @if(isset($category) && $category->image)
-                                            <img src="{{ asset('storage/'.$category->image) }}" alt="Category Image" style="max-width: 200px; max-height: 120px;">
+                                            <img src="{{ asset('storage/'.$category->image) }}" alt="category Image" class="img-thumbnail" style="max-width: 200px; max-height: 120px;">
                                         @endif
                                     </div>
                                 </div>
-                            </div>
+                            </div>  
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary" id="saveBtn">{{isset($category) ? 'Update' : 'Save'}}</button>
@@ -188,7 +192,7 @@
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        preview.html('<img src="' + e.target.result + '" style="max-width:200px; max-height:120px;" />');
+                        preview.html('<img src="' + e.target.result + '" class="img-thumbnail" style="max-width:200px; max-height:120px;" />');
                     }
                     reader.readAsDataURL(input.files[0]);
                 }
