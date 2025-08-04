@@ -84,11 +84,17 @@ class Category extends Model
     {
         return $this->hasMany(self::class, 'parent_category_id');
     }
-    
+
     public static function getPerPageLimit(): int
     {
         return Config::has('get.admin_page_limit')
             ? Config::get('get.admin_page_limit')
             : 10;
+    }
+
+    public function childrenRecursive()
+    {
+        return $this->hasMany(Category::class, 'parent_category_id')
+            ->with('childrenRecursive');
     }
 }
