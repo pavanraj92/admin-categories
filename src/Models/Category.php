@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
 use Kyslik\ColumnSortable\Sortable;
+use admin\admin_auth\Models\Seo;
 
 class Category extends Model
 {
@@ -66,6 +67,12 @@ class Category extends Model
             if ($category->isDirty('title')) {
                 $category->slug = Str::slug($category->title, '_');
             }
+        });
+
+        static::deleting(function ($page) {
+            Seo::where('model_name', self::class)
+                ->where('model_record_id', $page->id)
+                ->delete();
         });
     }
 

@@ -11,21 +11,16 @@ class CategoryUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [          
+       return [          
             'parent_category_id' => 'nullable|numeric',
             'title' => 'required|string|min:3|max:100|unique:categories,title,' . $this->route('category')->id,            
             'sort_order' => 'required|numeric|min:0|max:2147483647|unique:categories,sort_order,' . $this->route('category')->id,
             'status' => 'required|in:0,1',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_keywords' => 'nullable|string|max:500',
+            'meta_description' => 'nullable|string|max:500',
         ];
 
-        // Make image required if not exist
-        if (!$this->route('category') || !$this->route('category')->image) {
-            $rules['image'] = 'required|image';
-        } else {
-            $rules['image'] = 'nullable|image';
-        }
-
-        return $rules;
     }
 
     /**

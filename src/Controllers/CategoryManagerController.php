@@ -8,9 +8,12 @@ use admin\categories\Requests\CategoryCreateRequest;
 use admin\categories\Requests\CategoryUpdateRequest;
 use admin\categories\Models\Category;
 use admin\admin_auth\Services\ImageService;
+use admin\admin_auth\Traits\HasSeo;
 
 class CategoryManagerController extends Controller
 {
+    use HasSeo;
+
     protected $imageService;
 
     public function __construct(ImageService $imageService)
@@ -62,7 +65,8 @@ class CategoryManagerController extends Controller
                 $requestData['image'] = $this->imageService->upload($request->file('image'), 'category');
             }
 
-            Category::create($requestData);
+            $category = Category::create($requestData);
+            $this->saveSeo(Category::class, $category->id, $requestData);
             return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to load categories: ' . $e->getMessage());
@@ -76,7 +80,8 @@ class CategoryManagerController extends Controller
     {
         try {
             $category->load(['parent', 'children']);
-            return view('category::admin.show', compact('category'));
+            $seo = $this->getSeo($category);
+            return view('category::admin.show', compact('category', 'seo'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to load categories: ' . $e->getMessage());
         }
@@ -86,7 +91,10 @@ class CategoryManagerController extends Controller
     {
         try {
             $mainCategories = Category::whereNull('parent_category_id')->orWhere('parent_category_id', 0)->where('id', '!=', $category->id)->get();
-            return view('category::admin.createOrEdit', compact('category', 'mainCategories'));
+
+            $seo = $this->getSeo($category);
+
+            return view('category::admin.createOrEdit', compact('category', 'mainCategories','seo'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to load category for editing: ' . $e->getMessage());
         }
@@ -103,6 +111,7 @@ class CategoryManagerController extends Controller
             }
 
             $category->update($requestData);
+            $this->saveSeo(Category::class, $category->id, $requestData);
             return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to load category for editing: ' . $e->getMessage());
