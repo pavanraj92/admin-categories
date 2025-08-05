@@ -5,24 +5,26 @@
 @section('page-title', isset($category) ? 'Edit Category' : 'Create Category')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.categories.index') }}">Category Manager</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{isset($category) ? 'Edit Category' : 'Create Category'}}</li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.categories.index') }}">Category Manager</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">{{ isset($category) ? 'Edit Category' : 'Create Category' }}</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <!-- Start category Content -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-body">
-                    <form action="{{ isset($category) ? route('admin.categories.update', $category->id) : route('admin.categories.store') }}"
-                        method="POST" id="categoryForm"  enctype="multipart/form-data">
-                        @if (isset($category))
-                            @method('PUT')
-                        @endif
-                        @csrf
+        <form
+            action="{{ isset($category) ? route('admin.categories.update', $category->id) : route('admin.categories.store') }}"
+            method="POST" id="categoryForm" enctype="multipart/form-data">
+            @if (isset($category))
+                @method('PUT')
+            @endif
+            @csrf
+            <!-- Start category Content -->
+            <div class="row">
+                <div class="col-8">
+                    <div class="card card-body">
                         <div class="row">
-                            <div class="col-md-6">                                
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Title<span class="text-danger">*</span></label>
                                     <input type="text" name="title" class="form-control alphabets-only"
@@ -36,11 +38,11 @@
                                 <div class="form-group">
                                     <label>Parent Category</label>
                                     <select name="parent_category_id" class="form-control select2">
-                                        <option value="0">None (Main Category)</option>
-                                        @if(isset($mainCategories))
-                                            @foreach($mainCategories as $mainCategory)
-                                                <option value="{{ $mainCategory->id }}" 
-                                                    @if(($category->parent_category_id ?? old('parent_category_id')) == $mainCategory->id) selected @endif>
+                                        <option value="0">Select Parent Category</option>
+                                        @if (isset($mainCategories))
+                                            @foreach ($mainCategories as $mainCategory)
+                                                <option value="{{ $mainCategory->id }}"
+                                                    @if (($category->parent_category_id ?? old('parent_category_id')) == $mainCategory->id) selected @endif>
                                                     {{ $mainCategory->title }}
                                                 </option>
                                             @endforeach
@@ -53,7 +55,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">                                
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Sort Order<span class="text-danger">*</span></label>
                                     <input type="text" name="sort_order" class="form-control numbers-only"
@@ -67,8 +69,12 @@
                                 <div class="form-group">
                                     <label>Status<span class="text-danger">*</span></label>
                                     <select name="status" class="form-control select2" required>
-                                        <option value="1" {{ (($category?->status ?? old('status')) == '1') ? 'selected' : '' }}>Active</option>
-                                        <option value="0" {{ (($category?->status ?? old('status')) == '0') ? 'selected' : '' }}>InActive</option>
+                                        <option value="1"
+                                            {{ ($category?->status ?? old('status')) == '1' ? 'selected' : '' }}>Active
+                                        </option>
+                                        <option value="0"
+                                            {{ ($category?->status ?? old('status')) == '0' ? 'selected' : '' }}>InActive
+                                        </option>
                                     </select>
                                     @error('status')
                                         <div class="text-danger validation-error">{{ $message }}</div>
@@ -78,33 +84,38 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">                                
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Image<span class="text-danger">*</span></label>
-                                    <input type="file" name="image" class="form-control" id="imageInput" {{ isset($category) ? '' : 'required' }}>
+                                    <label>Image</label>
+                                    <input type="file" name="image" class="form-control" id="imageInput">
                                     @error('image')
                                         <div class="text-danger validation-error">{{ $message }}</div>
-                                    @enderror                                  
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group">                                    
+                                <div class="form-group">
                                     <div id="imagePreview">
-                                        @if(isset($category) && $category->image)
-                                            <img src="{{ asset('storage/'.$category->image) }}" alt="category Image" class="img-thumbnail" style="max-width: 200px; max-height: 120px;">
+                                        @if (isset($category) && $category->image)
+                                            <img src="{{ asset('storage/' . $category->image) }}" alt="category Image"
+                                                class="img-thumbnail" style="max-width: 200px; max-height: 120px;">
                                         @endif
                                     </div>
                                 </div>
-                            </div>  
+                            </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary" id="saveBtn">{{isset($category) ? 'Update' : 'Save'}}</button>
+                            <button type="submit" class="btn btn-primary"
+                                id="saveBtn">{{ isset($category) ? 'Update' : 'Save' }}</button>
                             <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">Back</a>
                         </div>
-                    </form>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    @include('admin::admin.seo_meta_data.seo', ['seo' => $seo ?? null])
                 </div>
             </div>
-        </div>
+        </form>
         <!-- End category Content -->
     </div>
 @endsection
@@ -114,7 +125,7 @@
     <!-- Select2 CSS & JS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Custom CSS for the category -->
-    <link rel="stylesheet" href="{{ asset('backend/custom.css') }}">           
+    <link rel="stylesheet" href="{{ asset('backend/custom.css') }}">
 @endpush
 
 @push('scripts')
@@ -130,7 +141,7 @@
 
             $.validator.addMethod(
                 "alphabetsOnly",
-                function (value, element) {
+                function(value, element) {
                     return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
                 },
                 "Please enter letters only"
@@ -160,9 +171,6 @@
                         required: "Please enter a sort order",
                         digits: "Sort order must be a valid number",
                         min: "Sort order must be at least 1"
-                    },
-                    image: {
-                       required: "Image is required",
                     }
                 },
                 submitHandler: function(form) {
@@ -192,7 +200,8 @@
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        preview.html('<img src="' + e.target.result + '" class="img-thumbnail" style="max-width:200px; max-height:120px;" />');
+                        preview.html('<img src="' + e.target.result +
+                            '" class="img-thumbnail" style="max-width:200px; max-height:120px;" />');
                     }
                     reader.readAsDataURL(input.files[0]);
                 }
