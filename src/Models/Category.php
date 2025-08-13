@@ -104,4 +104,9 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_category_id')
             ->with('childrenRecursive');
     }
+
+    public function scopeIsActive($query)
+    {
+        return $query->where('status', 1);
+    }
 }
