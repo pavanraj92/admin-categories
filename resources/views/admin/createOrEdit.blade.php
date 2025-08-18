@@ -99,6 +99,9 @@
                                         @if (isset($category) && $category->image)
                                             <img src="{{ asset('storage/' . $category->image) }}" alt="category Image"
                                                 class="img-thumbnail" style="max-width: 200px; max-height: 120px;">
+                                        @else
+                                         <img src="{{ asset('images/default.png') }}" alt="category Image"
+                                                class="img-thumbnail" style="max-width: 200px; max-height: 120px;">
                                         @endif
                                     </div>
                                 </div>

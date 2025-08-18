@@ -9,6 +9,8 @@ use admin\categories\Requests\CategoryUpdateRequest;
 use admin\categories\Models\Category;
 use admin\admin_auth\Services\ImageService;
 use admin\admin_auth\Traits\HasSeo;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CategoryManagerController extends Controller
 {
@@ -121,6 +123,34 @@ class CategoryManagerController extends Controller
     public function destroy(Category $category)
     {
         try {
+            if (Schema::hasTable('products')) {
+                $isAssigned = DB::table('products')
+                    ->where('primary_category_id', $category->id)
+                    ->whereNull('deleted_at')
+                    ->exists();
+
+                if ($isAssigned) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'This category is assigned to products and cannot be deleted.'
+                    ], 400);
+                }
+            }
+
+            // Check if courses table exists and category is assigned
+            if (Schema::hasTable('course_category')) {
+                $isAssigned = DB::table('course_category')
+                    ->where('category_id', $category->id)
+                    ->exists();
+
+                if ($isAssigned) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'This category is assigned to courses and cannot be deleted.'
+                    ], 400);
+                }
+            }
+
             if ($category->image && \Storage::disk('public')->exists($category->image)) {
                 \Storage::disk('public')->delete($category->image);
             }
