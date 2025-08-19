@@ -71,7 +71,7 @@
                                     <select name="status" class="form-control select2" required>
                                         @foreach (config('category.constants.status', []) as $key => $label)
                                             <option value="{{ $key }}"
-                                                {{ (isset($category) && $category?->status == $key) || old('status') == $key ? 'selected' : '' }}>
+                                                {{ (isset($category) && (string) $category?->status === (string) $key) || old('status') === (string) $key ? 'selected' : '' }}>
                                                 {{ $label }}
                                             </option>
                                         @endforeach
