@@ -30,10 +30,9 @@ class CategoryServiceProvider extends ServiceProvider
         if (is_dir(base_path('Modules/Categories/database/migrations'))) {
             $this->loadMigrationsFrom(base_path('Modules/Categories/database/migrations'));
         }
-        $this->mergeConfigFrom(__DIR__ . '/../config/category.php', 'category.config');
         // Also merge config from published module if it exists
         if (file_exists(base_path('Modules/Categories/config/categories.php'))) {
-            $this->mergeConfigFrom(base_path('Modules/Categories/config/categories.php'), 'category.config');
+            $this->mergeConfigFrom(base_path('Modules/Categories/config/categories.php'), 'category.constants');
         }
         
         // Only publish automatically during package installation, not on every request
