@@ -100,7 +100,7 @@
                                             <img src="{{ asset('storage/' . $category->image) }}" alt="category Image"
                                                 class="img-thumbnail" style="max-width: 200px; max-height: 120px;">
                                         @else
-                                         <img src="{{ asset('images/default.png') }}" alt="category Image"
+                                         <img src="{{ asset('images/no-image.png') }}" alt="category Image"
                                                 class="img-thumbnail" style="max-width: 200px; max-height: 120px;">
                                         @endif
                                     </div>
