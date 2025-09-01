@@ -36,7 +36,7 @@ This package allows you to perform CRUD operations for managing categories in th
 
 ### 2. Require the package via Composer
     ```bash
-    composer require admin/category:@dev
+    composer require admin/categories:@dev
     ```
 
 ### 3. Publish assets
