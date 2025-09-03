@@ -1,6 +1,6 @@
 <?php
 
-namespace Admin\AdminAuth\Database\Seeders;
+namespace Admin\Categories\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +19,8 @@ class CategorySeeder extends Seeder
 
         $categoriesByIndustry = [
             'ecommerce' => [
-                ['title' => 'Electronics', 'children' => ['Mobiles', 'Laptops', 'Cameras']],
                 ['title' => 'Fashion', 'children' => ['Men', 'Women', 'Kids']],
+                ['title' => 'Electronics', 'children' => ['Mobiles', 'Laptops', 'Cameras']],
                 ['title' => 'Home & Kitchen', 'children' => ['Furniture', 'Appliances', 'Decor']],
             ],
             'education' => [
