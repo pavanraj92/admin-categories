@@ -19,7 +19,13 @@ class CategoryServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/views'      // Package views as fallback
         ], 'category');
 
-        $this->mergeConfigFrom(__DIR__.'/../config/category.php', 'category.constants');
+        // Load published module config first (if it exists), then fallback to package config
+        if (file_exists(base_path('Modules/Categories/config/category.php'))) {
+            $this->mergeConfigFrom(base_path('Modules/Categories/config/category.php'), 'category.constants');
+        } else {
+            // Fallback to package config if published config doesn't exist
+            $this->mergeConfigFrom(__DIR__.'/../config/category.php', 'category.constants');
+        }
         
         // Also register module views with a specific namespace for explicit usage
         if (is_dir(base_path('Modules/Categories/resources/views'))) {
@@ -29,10 +35,6 @@ class CategoryServiceProvider extends ServiceProvider
         // Also load migrations from published module if they exist
         if (is_dir(base_path('Modules/Categories/database/migrations'))) {
             $this->loadMigrationsFrom(base_path('Modules/Categories/database/migrations'));
-        }
-        // Also merge config from published module if it exists
-        if (file_exists(base_path('Modules/Categories/config/categories.php'))) {
-            $this->mergeConfigFrom(base_path('Modules/Categories/config/categories.php'), 'category.constants');
         }
         
         // Only publish automatically during package installation, not on every request
