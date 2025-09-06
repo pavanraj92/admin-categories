@@ -187,6 +187,17 @@ class CategoryServiceProvider extends ServiceProvider
             $content
         );
 
+        $content = str_replace(
+            'use admin\admin_auth\Services\ImageService;',
+            'use Modules\\AdminAuth\\app\\Services\\ImageService;',
+            $content
+        );
+        $content = str_replace(
+            'use admin\admin_auth\Traits\HasSeo;',
+            'use Modules\\AdminAuth\\app\\Traits\\HasSeo;',
+            $content
+        );
+
         return $content;
     }
 
@@ -195,7 +206,12 @@ class CategoryServiceProvider extends ServiceProvider
      */
     protected function transformModelNamespaces($content)
     {
-        // Any model-specific transformations
+        // Transform admin_auth namespaces in models
+        $content = str_replace(
+            'use admin\admin_auth\Models\Seo;',
+            'use Modules\\AdminAuth\\app\\Models\\Seo;',
+            $content
+        );
         return $content;
     }
 
