@@ -13,8 +13,14 @@ class CategoryCreateRequest extends FormRequest
     public function rules(): array
     {
         return [                   
-            'parent_category_id' => 'nullable|numeric',        
-            'title' => 'required|string|min:3|max:100|unique:categories,title',
+            'parent_category_id' => 'nullable|numeric',
+            'title' => [
+                'required',
+                'string',
+                'min:3',
+                'max:100',
+                Rule::unique('categories', 'title')->whereNull('deleted_at'),
+            ],
             'sort_order' => [
                 'required',
                 'numeric',
@@ -50,4 +56,3 @@ class CategoryCreateRequest extends FormRequest
         return true;
     }
 }
-

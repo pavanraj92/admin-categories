@@ -14,7 +14,13 @@ class CategoryUpdateRequest extends FormRequest
     {
        return [          
             'parent_category_id' => 'nullable|numeric',
-            'title' => 'required|string|min:3|max:100|unique:categories,title,' . $this->route('category')->id,            
+            'title' => [
+                'required',
+                'string',
+                'min:3',
+                'max:100',
+                Rule::unique('categories', 'title')->ignore($this->route('category')->id)->whereNull('deleted_at'),
+            ],
             'sort_order' => [
                 'required',
                 'numeric',
