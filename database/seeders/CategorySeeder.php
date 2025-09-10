@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Session;
 
 class CategorySeeder extends Seeder
 {
@@ -30,7 +30,7 @@ class CategorySeeder extends Seeder
         ];
 
         // Example: industry slug from session or env
-        $industry = session('industry', 'ecommerce'); // default ecommerce
+        $industry = Session::get('industry', 'ecommerce'); // default ecommerce
 
         if (isset($categoriesByIndustry[$industry])) {
             foreach ($categoriesByIndustry[$industry] as $sortOrder => $category) {
