@@ -123,6 +123,14 @@ class CategoryManagerController extends Controller
     public function destroy(Category $category)
     {
         try {
+            // Prevent deletion if subcategories exist
+            if ($category->children()->exists()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This category has subcategories and cannot be deleted.'
+                ], 400);
+            }
+
             if (Schema::hasTable('products')) {
                 $isAssigned = DB::table('products')
                     ->where('primary_category_id', $category->id)
