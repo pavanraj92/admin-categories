@@ -30,7 +30,11 @@ class CategorySeeder extends Seeder
         ];
 
         // Example: industry slug from session or env
-        $industry = Session::get('industry', 'ecommerce'); // default ecommerce
+        $industry = Session::get('industry');
+        if (empty($industry)) {
+            $industrySetting = DB::table('settings')->where('title', 'industry')->value('config_value');
+            $industry = $industrySetting ?: 'ecommerce';
+        }
 
         if (isset($categoriesByIndustry[$industry])) {
             foreach ($categoriesByIndustry[$industry] as $sortOrder => $category) {
