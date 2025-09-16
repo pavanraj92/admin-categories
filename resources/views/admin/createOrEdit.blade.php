@@ -123,20 +123,7 @@
     </div>
 @endsection
 
-@push('styles')
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css">
-    <!-- Select2 CSS & JS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- Custom CSS for the category -->
-    <link rel="stylesheet" href="{{ asset('backend/custom.css') }}">
-@endpush
-
 @push('scripts')
-    <!-- Then the jQuery Validation plugin -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-    <!-- Select2 CSS & JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
     <script>
         $(document).ready(function() {
             // Initialize Select2 for any select elements with the class 'select2'
